@@ -3,6 +3,72 @@
 #include <time.h>
 
 //poczatek funkcji count ktora liczy sume elementow w danym wierszu i kolumnie oraz wypisuje te sumy
+int ready()
+{
+    FILE *fp;
+    int size;
+    printf("Podaj rozmiar tablicy: ");
+	scanf("%d",&size);
+    int array[size][size];
+    int i, j;
+    fp  = fopen("tablica.txt","w");
+    printf("\nWprowadz elementy: \n ");
+
+    //wpisywanie podanych przez uzytkownika liczb do tablicy
+    for(i=0;i<size;i++)
+    {
+        printf("Wiersz[%d]: \n",i);
+        for(j=0;j<size; j++)
+        {
+            //petla do while wygodniejsza choc nie dziala jak powinna
+           /* int k = 0;
+            do
+            {
+                scanf("%d",&array[i][j]);
+              // printf("%d,%d ,%d , %d",i,j,array[i][j],k);
+              k++;
+            }
+            while(array[i][j] <= 9 && k<1);*/
+            scanf("%d",&array[i][j]);
+            if(array[i][j] > 9)
+            {
+                printf("Nalezy podac liczbe z zakresu 0-9");
+                return 0;
+            }
+
+        }
+
+    }
+    fwrite(array,sizeof(int),size,fp);
+    printf("Twoja tablica:\n\n");
+     for(i=0;i<size;i++)
+    {
+        for(j=0;j<size;j++)
+        {
+            printf(" %d ",array[i][j]);
+        }
+        printf("\n");
+    }
+    fclose(fp);
+  /*  FILE *plik;
+
+    int tablica[5] = {0};
+
+    plik = fopen("tablica.txt","r");
+    if (plik == NULL)
+    {
+        printf("Nie");
+    }
+    fgets(plik,5,tablica[5]);
+
+    fclose(plik);
+
+    for (int i=0; i<5; i++)
+    {
+        printf("%d",tablica[i]);
+    }*/
+
+}/*
 int count(int size, int array[size][size])
 {
     int i,j;
@@ -46,7 +112,7 @@ void los(int size)
         }
         printf(" <-- nr.indeksu");
         printf("\n\n"); */ //tylko gdy tablica jest max 10 stopnia
-	while(i<size)
+/*	while(i<size)
 	{
 		j=0;
 
@@ -62,15 +128,16 @@ void los(int size)
 	printf("\n\n");
     count(size,array); //wywolanie funkcji count
 
-}
+}*/
 //koniec funkcji los
 int main()
 {
     srand(time(0));
-    int size, j,i;
-	printf("Podaj rozmiar tablicy: ");
-	scanf("%d",&size);
-    los(size);
+    ready();
+   // int size, j,i;
+	//printf("Podaj rozmiar tablicy: ");
+	//scanf("%d",&size);
+///    los(size);
   //  count(size,i,j);
 	/*int i, k;
 	int suma_i, suma_k;
