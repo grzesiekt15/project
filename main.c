@@ -2,12 +2,35 @@
 #include <stdlib.h>
 #include <time.h>
 
-//poczatek funkcji los, ktora to losuje elemnty do  tablicy o stopniu podanym przez uzytkownika, nastepnie wypisuje ja
-los(int size, int j, int i)
+//poczatek funkcji count ktora liczy sume elementow w danym wierszu i kolumnie oraz wypisuje te sumy
+int count(int size, int array[size][size])
 {
-	printf("Podaj rozmiar tablicy: ");
-	scanf("%d",&size);
-	int array[size][size];
+    int i,j;
+    int rowsum;
+    int columnsum;
+    int rowindex;
+    int columnindex;
+    for(i=0;i<size;i++)
+    {
+        rowsum = 0;
+        columnsum = 0;
+        for(j=0;j<size;j++)
+        {
+            rowsum += array[i][j]; //liczenie sumy elementow w wierszu
+            columnsum += array[j][i];	//liczenie sumy elementow w kolumnie
+            rowindex = i;
+            columnindex = i;
+            //i = 0, k = 2
+        }
+            printf("Suma W[%d]: %d, Suma K[%d]: %d\n",i,rowsum,i,columnsum);
+    }
+}
+//koniec funkcji count
+//poczatek funkcji los, ktora to losuje elemnty do  tablicy o stopniu podanym przez uzytkownika, nastepnie wypisuje ja
+void los(int size)
+{
+    int array[size][size];
+    int i,j;
 	for(i=0; i<size;i++)
 	{
 		for(j=0; j<size;j++)
@@ -17,9 +40,16 @@ los(int size, int j, int i)
 	}
 	printf("Twoja tablica: \n\n");
 	i =0; j=0;
+	/*for(int k = 0;k<size;k++)
+        {
+            printf(" %d",k);
+        }
+        printf(" <-- nr.indeksu");
+        printf("\n\n"); */ //tylko gdy tablica jest max 10 stopnia
 	while(i<size)
 	{
 		j=0;
+
 		printf("| ");
 		while(j<size)
 		{
@@ -29,14 +59,19 @@ los(int size, int j, int i)
 		printf("|\n");
 		i++;
 	}
-	printf("\n");
+	printf("\n\n");
+    count(size,array); //wywolanie funkcji count
+
 }
+//koniec funkcji los
 int main()
 {
+    srand(time(0));
     int size, j,i;
-    // losowanie liczb i zapisywanie ich do tablicy jednowymiarowej
-	srand(time(0));
-    los(size,i,j);
+	printf("Podaj rozmiar tablicy: ");
+	scanf("%d",&size);
+    los(size);
+  //  count(size,i,j);
 	/*int i, k;
 	int suma_i, suma_k;
     int tablica[3][3] =
