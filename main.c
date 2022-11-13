@@ -1,10 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <time.h>
 int main()
 {
+    // losowanie liczb i zapisywanie ich do tablicy jednowymiarowej
+    srand(time(0));
+	int i=0;
+	int tab_los[7];
+	while(i<= 6)
+	{
+		 tab_los[i] = rand()%10;
+		 printf("Indeks[%d] = %d; ", i, tab_los[i]);
+		 i++;
+	}
 	//deklaracja zmiennych
-	int i, k;
+	/*int i, k;
 	int suma_i, suma_k;
     int tablica[3][3] =
     {
@@ -41,7 +51,5 @@ int main()
 		}
 		printf("|Suma dla K[%d]: %d|\n",i,suma_k);
 	}
-
-
-    return 0;
+*/ return 0;
 }
