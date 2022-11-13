@@ -1,19 +1,42 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
+//poczatek funkcji los, ktora to losuje elemnty do  tablicy o stopniu podanym przez uzytkownika, nastepnie wypisuje ja
+los(int size, int j, int i)
+{
+	printf("Podaj rozmiar tablicy: ");
+	scanf("%d",&size);
+	int array[size][size];
+	for(i=0; i<size;i++)
+	{
+		for(j=0; j<size;j++)
+		{
+			array[i][j] = rand()%10;
+		}
+	}
+	printf("Twoja tablica: \n\n");
+	i =0; j=0;
+	while(i<size)
+	{
+		j=0;
+		printf("| ");
+		while(j<size)
+		{
+			printf("%d ",array[i][j]);
+			j++;
+		}
+		printf("|\n");
+		i++;
+	}
+	printf("\n");
+}
 int main()
 {
+    int size, j,i;
     // losowanie liczb i zapisywanie ich do tablicy jednowymiarowej
-    srand(time(0));
-	int i=0;
-	int tab_los[7];
-	while(i<= 6)
-	{
-		 tab_los[i] = rand()%10;
-		 printf("Indeks[%d] = %d; ", i, tab_los[i]);
-		 i++;
-	}
-	//deklaracja zmiennych
+	srand(time(0));
+    los(size,i,j);
 	/*int i, k;
 	int suma_i, suma_k;
     int tablica[3][3] =
