@@ -49,27 +49,29 @@ ready()
 tab1()
 {
 	int i, j;
-	int tablica[3][3] = {{16,11,9},{13,27,1},{39,19,3}};
+	int array[3][3] = {{16,11,9},{13,27,1},{39,19,3}};
 	printf("Twoja tablica: \n\n");
 	while(i <3)
-		{
-			j=0;
-			printf("| ");
-			while(j<3)
-			{
-				printf("%d ",tablica[i][j]);
-				j++;
-			}
-			printf("|\n");
-			i++;
-		}
+    {
+        j=0;
+        printf("| ");
+        while(j<3)
+        {
+            printf("%d ",array[i][j]);
+            j++;
+        }
+        printf("|\n");
+        i++;
+    }
+    printf("\n");
+	count2(3,array);
 }
 //koniec funkcji tab1
 //funkcja tab2 tworzaca macierz 4 stopnia
 tab2()
 {
     int i,j;
-	int tablica[4][4] = {{2,77,5,83},{9,44,1,24},{65,8,0,37},{33,5,2,64},};
+	int array[4][4] = {{2,77,5,83},{9,44,1,24},{65,8,0,37},{33,5,2,64},};
 	printf("Twoja tablica: \n\n");
 	while(i<4)
 	{
@@ -77,19 +79,21 @@ tab2()
 		printf("| ");
 		while(j<4)
 		{
-			printf("%d ",tablica[i][j]);
+			printf("%d ",array[i][j]);
 			j++;
 		}
 		printf("|\n");
 		i++;
 	}
+	printf("\n");
+	count2(4,array);
 }
 //koniec funkcji tab2
 //funkcja tab3 tworzaca macierz 5 stopnia
 tab3()
 {
     int i,j;
-	int tablica[5][5] = {{31,4,8,22,13},{3,21,66,99,5},{16,28,4,10,3},{70,81,4,7,69},{23,52,4,11,3},};
+	int array[5][5] = {{31,4,8,22,13},{3,21,66,99,5},{16,28,4,10,3},{70,81,4,7,69},{23,52,4,11,3},};
 	printf("Twoja tablica: \n\n");
 	while(i<5)
 	{
@@ -97,17 +101,20 @@ tab3()
 		printf("| ");
 		while(j<5)
 		{
-			printf("%d ",tablica[i][j]);
+			printf("%d ",array[i][j]);
 			j++;
 		}
 		printf("|\n");
 		i++;
 	}
+	printf("\n");
+	count2(5,array);
 }
 //koniec funkcji tab3
 //funkcja yours pozwala wprowadzic wlasne elementy do tablicy(macierz) (elemntami moga byc liczby 0 - 9)
 int yours()
 {
+
     FILE *fp;
     int size;
     printf("Podaj rozmiar tablicy: ");
@@ -115,7 +122,7 @@ int yours()
     int array[size][size];
     int i, j;
     fp  = fopen("tablica.txt","w");
-    printf("\nWprowadz elementy: \n ");
+    printf("\nWprowadz elementy(tylko z zakresu 0-9): \n");
 
     //wpisywanie podanych przez uzytkownika liczb do tablicy
     for(i=0;i<size;i++)
@@ -138,9 +145,8 @@ int yours()
                 printf("Nalezy podac liczbe z zakresu 0-9");
                 return 0;
             }
-
         }
-
+        printf("\n");
     }
     fwrite(array,sizeof(int),size,fp);
     printf("Twoja tablica:\n\n");
@@ -153,6 +159,9 @@ int yours()
         printf("\n");
     }
     fclose(fp);
+    printf("\n");
+    count(size,array);
+
   /*  FILE *plik;
 
     int tablica[5] = {0};
@@ -191,9 +200,71 @@ int count(int size, int array[size][size])
             columnindex = i;
             //i = 0, k = 2
         }
-            printf("Suma W[%d]: %d, Suma K[%d]: %d\n",i,rowsum,i,columnsum);
+        write(rowsum, columnsum,rowindex);
+        printf("Suma W[%d]: %d, Suma K[%d]: %d\n",i,rowsum,i,columnsum);
     }
+    read();
 }
+//funkcja count
+int count2(int size, int array[size][size])
+{
+    int i,j;
+    int rowsum;
+    int columnsum;
+    int rowindex;
+    int columnindex;
+    for(i=0;i<size;i++)
+    {
+        rowsum = 0;
+        columnsum = 0;
+        for(j=0;j<size;j++)
+        {
+            rowsum += array[i][j]; //liczenie sumy elementow w wierszu
+            columnsum += array[j][i];	//liczenie sumy elementow w kolumnie
+            rowindex = i;
+            columnindex = i;
+            //i = 0, k = 2
+        }
+        write(rowsum, columnsum,rowindex);
+        printf("Suma W[%d]: %d, Suma K[%d]: %d\n",i,rowsum,i,columnsum);
+    }
+    read();
+}
+//koniec funkcji count
+//funkcja write
+write(int rowsum, int columnsum, int rowindex)
+        {
+            FILE * file;
+            if (rowsum > columnsum)
+            {
+                file = fopen("file.txt","a+");
+                if(file==NULL)
+                {
+                    printf("Nie mozna otworzyc pliku");
+                    return 1;
+                }
+                fprintf(file,"%d  ",rowindex); //zapisanie do pliku indeksow wierszy spelniajacych warunek
+                fclose(file);
+            }
+        }
+//funkcja read
+ read()
+    {
+                FILE *file;
+        char index[255];
+        file = fopen("file.txt","r");
+            if(file==NULL)
+            {
+                printf("Nie mozna otworzyc pliku");
+                return 1;
+            }
+        fgets(index,255,file);
+        fclose(file);
+        printf("\n");
+        printf("Numery wierszy spelniajace warunek: %s",index);
+    }
+//koniec funkcji read
+//koniec funkcji write
 //koniec funkcji count
 //poczatek funkcji los, ktora to losuje elemnty do  tablicy o stopniu podanym przez uzytkownika, nastepnie wypisuje ja
 void los(int size)
@@ -242,6 +313,11 @@ int main()
     int value = welcome(makechoice); //przypisanie wartosci jaka zwraca funkcja do zmiennej value
     int size, j,i;
 	choice(value);
+	FILE *file;
+	char delete[255];
+    file = fopen("file.txt","w");
+    fprintf("%s",delete);
+    fclose(file);
     //los(size);
   //  count(size,i,j);
 	/*int i, k;
