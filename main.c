@@ -33,17 +33,79 @@ ready()
 	printf("1.\n[16,11,9]\n[13,27,1]\n[39,19,3]\n\n");
 	printf("2.\n[2,77,5,83]\n[9,44,1,24]\n[65,8,0,37]\n[33,25,2,6]\n\n");
 	printf("3.\n[31,4,8,22,13]\n[3,21,66,99,5]\n[16,28,4,10,3]\n[70,81,4,7,69]\n[23,52,4,11,3]\n\n");
-	printf("Wybierz tablice z 3 podanych: ");
-	scanf("%d",&select);
+	printf("Wybierz tablice z 3 podanych. ");
+	do
+    {
+        printf("Twoj wybor: ");
+        scanf("%d",&select);
+    }while(select != 1 && select != 2 && select != 3 );
 
-	//if (select == 1) tab1();
-	//else if (select == 2) tab2();
-	//else if(select == 3 ) tab3();
-	//else printf("Podaj odpowiednia wartosc");
+	if (select == 1) tab1();
+	else if (select == 2) tab2();
+    else if(select == 3 ) tab3();
 }
-
 //koniec funkcji ready
-//koniec funkcji welcome
+//funkcja tab1 tworzaca macierz 3 stopnia
+tab1()
+{
+	int i, j;
+	int tablica[3][3] = {{16,11,9},{13,27,1},{39,19,3}};
+	printf("Twoja tablica: \n\n");
+	while(i <3)
+		{
+			j=0;
+			printf("| ");
+			while(j<3)
+			{
+				printf("%d ",tablica[i][j]);
+				j++;
+			}
+			printf("|\n");
+			i++;
+		}
+}
+//koniec funkcji tab1
+//funkcja tab2 tworzaca macierz 4 stopnia
+tab2()
+{
+    int i,j;
+	int tablica[4][4] = {{2,77,5,83},{9,44,1,24},{65,8,0,37},{33,5,2,64},};
+	printf("Twoja tablica: \n\n");
+	while(i<4)
+	{
+		j=0;
+		printf("| ");
+		while(j<4)
+		{
+			printf("%d ",tablica[i][j]);
+			j++;
+		}
+		printf("|\n");
+		i++;
+	}
+}
+//koniec funkcji tab2
+//funkcja tab3 tworzaca macierz 5 stopnia
+tab3()
+{
+    int i,j;
+	int tablica[5][5] = {{31,4,8,22,13},{3,21,66,99,5},{16,28,4,10,3},{70,81,4,7,69},{23,52,4,11,3},};
+	printf("Twoja tablica: \n\n");
+	while(i<5)
+	{
+		j=0;
+		printf("| ");
+		while(j<5)
+		{
+			printf("%d ",tablica[i][j]);
+			j++;
+		}
+		printf("|\n");
+		i++;
+	}
+}
+//koniec funkcji tab3
+//funkcja yours pozwala wprowadzic wlasne elementy do tablicy(macierz) (elemntami moga byc liczby 0 - 9)
 int yours()
 {
     FILE *fp;
