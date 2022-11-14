@@ -13,12 +13,13 @@ choice(int value)
 welcome(makechoice)
 {
 	printf("Start programu...");
-    printf("Wpisz:\n '1' aby wylosowac nowa tablice\n '2' aby skorzystac z szablonow\n '3' aby utworzyc wlasna tablice: ");
+    printf("Wpisz:\n '1' aby wylosowac nowa tablice\n '2' aby skorzystac z szablonow\n '3' aby utworzyc wlasna tablice");
 	do
     {
+        printf("\nWprowadz: ");
         scanf("%d",&makechoice);
     }
-    while(makechoice > 0 && makechoice <3);
+    while(makechoice != 1 && makechoice != 2 && makechoice != 3 );
 }
 //koniec funkcji powitanie
 int yours()
