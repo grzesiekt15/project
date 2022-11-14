@@ -3,7 +3,25 @@
 #include <time.h>
 
 //poczatek funkcji count ktora liczy sume elementow w danym wierszu i kolumnie oraz wypisuje te sumy
-int ready()
+choice(int value)
+{
+	//if(value == 1) los();
+
+	//else if(value == 2) ready();
+
+}
+welcome(makechoice)
+{
+	printf("Start programu...");
+    printf("Wpisz:\n '1' aby wylosowac nowa tablice\n '2' aby skorzystac z szablonow\n '3' aby utworzyc wlasna tablice: ");
+	do
+    {
+        scanf("%d",&makechoice);
+    }
+    while(makechoice > 0 && makechoice <3);
+}
+//koniec funkcji powitanie
+int yours()
 {
     FILE *fp;
     int size;
@@ -133,7 +151,11 @@ void los(int size)
 int main()
 {
     srand(time(0));
-    ready();
+    int makechoice;
+    int value = welcome(makechoice); //przypisanie wartosci jaka zwraca funkcja do zmiennej value
+    printf("%d",value);
+
+   //yours();
    // int size, j,i;
 	//printf("Podaj rozmiar tablicy: ");
 	//scanf("%d",&size);
