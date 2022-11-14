@@ -2,14 +2,17 @@
 #include <stdlib.h>
 #include <time.h>
 
-//poczatek funkcji count ktora liczy sume elementow w danym wierszu i kolumnie oraz wypisuje te sumy
+//funkcja choice przyjmuje wartosc zmiennej value i na tej podstawie uruchamia odpowiednia funkcje
 choice(int value)
 {
-	//if(value == 1) los();
+	if(value == 1) los();
 
-	//else if(value == 2) ready();
+	else if(value == 2) ready();
+
+	else if(value == 3) yours();
 
 }
+//funkcja poczatkowa pozwalajaca na wybranie z jakiej tablicy bedzie korzystal program
 welcome(makechoice)
 {
 	printf("Start programu...");
@@ -21,7 +24,26 @@ welcome(makechoice)
     }
     while(makechoice != 1 && makechoice != 2 && makechoice != 3 );
 }
-//koniec funkcji powitanie
+//funkcja z gotowymi szablonami tablic(macierzy)
+ready()
+{
+    int select;
+	int i = 0;
+	int j = 0;
+	printf("1.\n[16,11,9]\n[13,27,1]\n[39,19,3]\n\n");
+	printf("2.\n[2,77,5,83]\n[9,44,1,24]\n[65,8,0,37]\n[33,25,2,6]\n\n");
+	printf("3.\n[31,4,8,22,13]\n[3,21,66,99,5]\n[16,28,4,10,3]\n[70,81,4,7,69]\n[23,52,4,11,3]\n\n");
+	printf("Wybierz tablice z 3 podanych: ");
+	scanf("%d",&select);
+
+	//if (select == 1) tab1();
+	//else if (select == 2) tab2();
+	//else if(select == 3 ) tab3();
+	//else printf("Podaj odpowiednia wartosc");
+}
+
+//koniec funkcji ready
+//koniec funkcji welcome
 int yours()
 {
     FILE *fp;
@@ -87,7 +109,7 @@ int yours()
         printf("%d",tablica[i]);
     }*/
 
-}/*
+}
 int count(int size, int array[size][size])
 {
     int i,j;
@@ -114,6 +136,8 @@ int count(int size, int array[size][size])
 //poczatek funkcji los, ktora to losuje elemnty do  tablicy o stopniu podanym przez uzytkownika, nastepnie wypisuje ja
 void los(int size)
 {
+    printf("Podaj rozmiar tablicy: ");
+	scanf("%d",&size);
     int array[size][size];
     int i,j;
 	for(i=0; i<size;i++)
@@ -131,7 +155,7 @@ void los(int size)
         }
         printf(" <-- nr.indeksu");
         printf("\n\n"); */ //tylko gdy tablica jest max 10 stopnia
-/*	while(i<size)
+	while(i<size)
 	{
 		j=0;
 
@@ -147,20 +171,16 @@ void los(int size)
 	printf("\n\n");
     count(size,array); //wywolanie funkcji count
 
-}*/
+}
 //koniec funkcji los
 int main()
 {
     srand(time(0));
     int makechoice;
     int value = welcome(makechoice); //przypisanie wartosci jaka zwraca funkcja do zmiennej value
-    printf("%d",value);
-
-   //yours();
-   // int size, j,i;
-	//printf("Podaj rozmiar tablicy: ");
-	//scanf("%d",&size);
-///    los(size);
+    int size, j,i;
+	choice(value);
+    //los(size);
   //  count(size,i,j);
 	/*int i, k;
 	int suma_i, suma_k;
