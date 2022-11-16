@@ -2,30 +2,40 @@
 #include <stdlib.h>
 #include <time.h>
 
+
 //funkcja choice przyjmuje wartosc zmiennej value i na tej podstawie uruchamia odpowiednia funkcje
 choice(int value)
 {
 	if(value == 1) los();
 
-	else if(value == 2) ready();
+	//else if(value == 2) ready();
 
-	else if(value == 3) yours();
+	else if(value == 2) yours();
 
 }
+//funkcja remove usuwa plik, bedzie ona na koncu programu a wiec plik z wynikiem po skonczonym programie zostanie usuniety
+void removee()
+{
+    if( remove( "file.txt" ) == -1 )
+    perror( "Nie mozna usunac pliku!" );
+   else
+      printf( "Usunieto plik 'file.txt'" );
+}
+
 //funkcja poczatkowa pozwalajaca na wybranie z jakiej tablicy bedzie korzystal program
 welcome(makechoice)
 {
 	printf("Start programu...");
-    printf("Wpisz:\n '1' aby wylosowac nowa tablice\n '2' aby skorzystac z szablonow\n '3' aby utworzyc wlasna tablice");
+    printf("Wpisz:\n '1' aby wylosowac nowa tablice\n '2' aby utworzyc wlasna tablice");
 	do
     {
         printf("\nWprowadz: ");
         scanf("%d",&makechoice);
     }
-    while(makechoice != 1 && makechoice != 2 && makechoice != 3 );
+    while(makechoice != 1 && makechoice != 2);
 }
 //funkcja z gotowymi szablonami tablic(macierzy)
-ready()
+/*ready()
 {
     int select;
 	int i = 0;
@@ -109,9 +119,9 @@ tab3()
 	}
 	printf("\n");
 	count2(5,array);
-}
+}*/
 //koniec funkcji tab3
-//funkcja yours pozwala wprowadzic wlasne elementy do tablicy(macierz) (elemntami moga byc liczby 0 - 9)
+//funkcja yours pozwala wprowadzic wlasne elementy do tablicy(macierzy) (elemntami moga byc liczby 0 - 9)
 int yours()
 {
 
@@ -161,33 +171,12 @@ int yours()
     fclose(fp);
     printf("\n");
     count(size,array);
-
-  /*  FILE *plik;
-
-    int tablica[5] = {0};
-
-    plik = fopen("tablica.txt","r");
-    if (plik == NULL)
-    {
-        printf("Nie");
-    }
-    fgets(plik,5,tablica[5]);
-
-    fclose(plik);
-
-    for (int i=0; i<5; i++)
-    {
-        printf("%d",tablica[i]);
-    }*/
-
 }
 int count(int size, int array[size][size])
 {
-    int i,j;
-    int rowsum;
-    int columnsum;
-    int rowindex;
-    int columnindex;
+     clock_t start = clock() ;
+    //..
+    int i,j,rowsum,columnsum,rowindex,columnindex = 0;
     for(i=0;i<size;i++)
     {
         rowsum = 0;
@@ -198,14 +187,15 @@ int count(int size, int array[size][size])
             columnsum += array[j][i];	//liczenie sumy elementow w kolumnie
             rowindex = i;
             columnindex = i;
-            //i = 0, k = 2
         }
         write(rowsum, columnsum,rowindex);
-        printf("Suma W[%d]: %d, Suma K[%d]: %d\n",i,rowsum,i,columnsum);
+        //printf("Suma W[%d]: %d, Suma K[%d]: %d\n",i,rowsum,i,columnsum);
     }
-    read();
+        read();
+        printf( "Czas wykonywania: %lu s\n", (clock() - start)/CLOCKS_PER_SEC );
 }
-//funkcja count
+//koniec funkcji count
+//funkcja count2
 int count2(int size, int array[size][size])
 {
     int i,j;
@@ -226,7 +216,7 @@ int count2(int size, int array[size][size])
             //i = 0, k = 2
         }
         write(rowsum, columnsum,rowindex);
-        printf("Suma W[%d]: %d, Suma K[%d]: %d\n",i,rowsum,i,columnsum);
+       // printf("Suma W[%d]: %d, Suma K[%d]: %d\n",i,rowsum,i,columnsum);
     }
     read();
 }
@@ -251,14 +241,14 @@ write(int rowsum, int columnsum, int rowindex)
  read()
     {
                 FILE *file;
-        char index[255];
+        char index[300];
         file = fopen("file.txt","r");
             if(file==NULL)
             {
                 printf("Nie mozna otworzyc pliku");
                 return 1;
             }
-        fgets(index,255,file);
+        fgets(index,300,file);
         fclose(file);
         printf("\n");
         printf("Numery wierszy spelniajace warunek: %s",index);
@@ -280,14 +270,10 @@ void los(int size)
 			array[i][j] = rand()%10;
 		}
 	}
-	printf("Twoja tablica: \n\n");
+	if(size <=10) //dla lepszej widocznosci i przejrzystoci program bedzie pokazywal tablice max 10 stopnia
+    {
+        	printf("Twoja tablica: \n\n");
 	i =0; j=0;
-	/*for(int k = 0;k<size;k++)
-        {
-            printf(" %d",k);
-        }
-        printf(" <-- nr.indeksu");
-        printf("\n\n"); */ //tylko gdy tablica jest max 10 stopnia
 	while(i<size)
 	{
 		j=0;
@@ -302,6 +288,7 @@ void los(int size)
 		i++;
 	}
 	printf("\n\n");
+    }
     count(size,array); //wywolanie funkcji count
 
 }
@@ -314,48 +301,11 @@ int main()
     int size, j,i;
 	choice(value);
 	FILE *file;
-	char delete[255];
+	removee();
+
+	/*char delete[255];
     file = fopen("file.txt","w");
     fprintf("%s",delete);
-    fclose(file);
-    //los(size);
-  //  count(size,i,j);
-	/*int i, k;
-	int suma_i, suma_k;
-    int tablica[3][3] =
-    {
-        {3,5,8},
-        {4,6,1},
-        {7,2,1}, // gotowe elementy w tablicy
-    };
-    for(i = 0;  i<3; i++)
-     // w tej petli, wypisujemy indeksy wierszy i kolumn oraz wartosci im przypisane,
-	 // np: W[0]K[0]: 3, ozn to ze wartosc 3 znajduje sie 'pod' wierszem o indeksie 0 i kolumnie rowniez o indeksie 0
-	 // oprocz tego liczymy i wypisujemy sume liczb w kazdym wierszu
-    for(i=0;i<3;i++)
-    {
-    	for(k=i; k<3; k++)
-    	suma_i = 0;
-    	for(k=0;k<3;k++)
-    	{
-    		printf("W[%d]K[%d]: %d, ",i,k, tablica[i][k]);
-    		printf("\n");
-			suma_i += tablica[i][k];
-		}
-		printf("\n");
-		//liczenie sumy w danym wierszu
-		printf("|Suma dla W[%d] = %d|\n",i,suma_i);
-		printf("\n");
-	}
-	//liczenie sumy w danej kolumnie
-	for(i=0;i<3;i++)
-	{
-		suma_k = 0;
-		for(k=0; k<3; k++)
-		{
-			suma_k += tablica[k][i];
-		}
-		printf("|Suma dla K[%d]: %d|\n",i,suma_k);
-	}
-*/ return 0;
+    fclose(file);*/
+    return 0;
 }
