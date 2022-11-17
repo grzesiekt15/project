@@ -26,107 +26,20 @@ void removee()
 welcome(makechoice)
 {
 	printf("Start programu...");
-    printf("Wpisz:\n '1' aby wylosowac nowa tablice\n '2' aby utworzyc wlasna tablice");
+    printf("Wpisz:\n '1' aby wylosowac nowa tablice\n '2' aby utworzyc wlasna tablice\n");
 	do
     {
-        printf("\nWprowadz: ");
+        printf("Wprowadz: ");
         scanf("%d",&makechoice);
     }
     while(makechoice != 1 && makechoice != 2);
 }
-//funkcja z gotowymi szablonami tablic(macierzy)
-/*ready()
-{
-    int select;
-	int i = 0;
-	int j = 0;
-	printf("1.\n[16,11,9]\n[13,27,1]\n[39,19,3]\n\n");
-	printf("2.\n[2,77,5,83]\n[9,44,1,24]\n[65,8,0,37]\n[33,25,2,6]\n\n");
-	printf("3.\n[31,4,8,22,13]\n[3,21,66,99,5]\n[16,28,4,10,3]\n[70,81,4,7,69]\n[23,52,4,11,3]\n\n");
-	printf("Wybierz tablice z 3 podanych. ");
-	do
-    {
-        printf("Twoj wybor: ");
-        scanf("%d",&select);
-    }while(select != 1 && select != 2 && select != 3 );
-
-	if (select == 1) tab1();
-	else if (select == 2) tab2();
-    else if(select == 3 ) tab3();
-}
-//koniec funkcji ready
-//funkcja tab1 tworzaca macierz 3 stopnia
-tab1()
-{
-	int i, j;
-	int array[3][3] = {{16,11,9},{13,27,1},{39,19,3}};
-	printf("Twoja tablica: \n\n");
-	while(i <3)
-    {
-        j=0;
-        printf("| ");
-        while(j<3)
-        {
-            printf("%d ",array[i][j]);
-            j++;
-        }
-        printf("|\n");
-        i++;
-    }
-    printf("\n");
-	count2(3,array);
-}
-//koniec funkcji tab1
-//funkcja tab2 tworzaca macierz 4 stopnia
-tab2()
-{
-    int i,j;
-	int array[4][4] = {{2,77,5,83},{9,44,1,24},{65,8,0,37},{33,5,2,64},};
-	printf("Twoja tablica: \n\n");
-	while(i<4)
-	{
-		j=0;
-		printf("| ");
-		while(j<4)
-		{
-			printf("%d ",array[i][j]);
-			j++;
-		}
-		printf("|\n");
-		i++;
-	}
-	printf("\n");
-	count2(4,array);
-}
-//koniec funkcji tab2
-//funkcja tab3 tworzaca macierz 5 stopnia
-tab3()
-{
-    int i,j;
-	int array[5][5] = {{31,4,8,22,13},{3,21,66,99,5},{16,28,4,10,3},{70,81,4,7,69},{23,52,4,11,3},};
-	printf("Twoja tablica: \n\n");
-	while(i<5)
-	{
-		j=0;
-		printf("| ");
-		while(j<5)
-		{
-			printf("%d ",array[i][j]);
-			j++;
-		}
-		printf("|\n");
-		i++;
-	}
-	printf("\n");
-	count2(5,array);
-}*/
-//koniec funkcji tab3
 //funkcja yours pozwala wprowadzic wlasne elementy do tablicy(macierzy) (elemntami moga byc liczby 0 - 9)
 int yours()
 {
 
     FILE *fp;
-    int size;
+    long int  size;
     printf("Podaj rozmiar tablicy: ");
 	scanf("%d",&size);
     int array[size][size];
@@ -145,7 +58,6 @@ int yours()
             do
             {
                 scanf("%d",&array[i][j]);
-              // printf("%d,%d ,%d , %d",i,j,array[i][j],k);
               k++;
             }
             while(array[i][j] <= 9 && k<1);*/
@@ -174,8 +86,10 @@ int yours()
 }
 int count(int size, int array[size][size])
 {
+    smartopen(); //wywolanie funkcji - "wyczyszczeni pliku"
+    int count = 0;
+    int tab[0];
      clock_t start = clock() ;
-    //..
     int i,j,rowsum,columnsum,rowindex,columnindex = 0;
     for(i=0;i<size;i++)
     {
@@ -188,55 +102,48 @@ int count(int size, int array[size][size])
             rowindex = i;
             columnindex = i;
         }
-        write(rowsum, columnsum,rowindex);
+        if(rowsum > columnsum)
+        {
+            tab[count] = i;
+            printf("%d ", tab[count]);
+                write(count,tab);
+
+        }
+            count +1;
+
         //printf("Suma W[%d]: %d, Suma K[%d]: %d\n",i,rowsum,i,columnsum);
     }
-        read();
-        printf( "Czas wykonywania: %lu s\n", (clock() - start)/CLOCKS_PER_SEC );
+       // read();
+        printf("\n");
+        printf( "Czas wykonywania: %lu s\n", ((clock() - start)/CLOCKS_PER_SEC) );
 }
 //koniec funkcji count
-//funkcja count2
-int count2(int size, int array[size][size])
+//funkcja smartopen otwiera plik nic do niego nie wpisujac, czyniac go w ten sposob pustym
+// po to aby wyniki nie mieszaly sie
+smartopen()
 {
-    int i,j;
-    int rowsum;
-    int columnsum;
-    int rowindex;
-    int columnindex;
-    for(i=0;i<size;i++)
-    {
-        rowsum = 0;
-        columnsum = 0;
-        for(j=0;j<size;j++)
-        {
-            rowsum += array[i][j]; //liczenie sumy elementow w wierszu
-            columnsum += array[j][i];	//liczenie sumy elementow w kolumnie
-            rowindex = i;
-            columnindex = i;
-            //i = 0, k = 2
-        }
-        write(rowsum, columnsum,rowindex);
-       // printf("Suma W[%d]: %d, Suma K[%d]: %d\n",i,rowsum,i,columnsum);
-    }
-    read();
+    FILE *file;
+    file = fopen("file.txt","w");
+    fclose(file);
 }
-//koniec funkcji count
 //funkcja write
-write(int rowsum, int columnsum, int rowindex)
+write(int count, int tab[count])
+{
+    FILE * file;
+        int i;
+        file = fopen("file.txt","a+");
+        if(file==NULL)
         {
-            FILE * file;
-            if (rowsum > columnsum)
-            {
-                file = fopen("file.txt","a+");
-                if(file==NULL)
-                {
-                    printf("Nie mozna otworzyc pliku");
-                    return 1;
-                }
-                fprintf(file,"%d  ",rowindex); //zapisanie do pliku indeksow wierszy spelniajacych warunek
-                fclose(file);
-            }
+            printf("Nie mozna otworzyc pliku");
+            return 1;
         }
+        for(i=0;i<=count;i++)
+        {
+            fprintf(file,"%d ",tab[i]);
+        }
+         //zapisanie do pliku indeksow wierszy spelniajacych warunek
+        fclose(file);
+}
 //funkcja read
  read()
     {
@@ -251,7 +158,7 @@ write(int rowsum, int columnsum, int rowindex)
         fgets(index,300,file);
         fclose(file);
         printf("\n");
-        printf("Numery wierszy spelniajace warunek: %s",index);
+        printf("Indeksy wierszy spelniajace warunek: %s",index);
     }
 //koniec funkcji read
 //koniec funkcji write
@@ -301,11 +208,5 @@ int main()
     int size, j,i;
 	choice(value);
 	FILE *file;
-	removee();
-
-	/*char delete[255];
-    file = fopen("file.txt","w");
-    fprintf("%s",delete);
-    fclose(file);*/
     return 0;
 }
