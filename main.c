@@ -14,14 +14,6 @@ choice(int value)
 
 }
 //funkcja remove usuwa plik, bedzie ona na koncu programu a wiec plik z wynikiem po skonczonym programie zostanie usuniety
-void removee()
-{
-    if( remove( "file.txt" ) == -1 )
-    perror( "Nie mozna usunac pliku!" );
-   else
-      printf( "Usunieto plik 'file.txt'" );
-}
-
 //funkcja poczatkowa pozwalajaca na wybranie z jakiej tablicy bedzie korzystal program
 welcome(makechoice)
 {
@@ -70,8 +62,8 @@ int yours()
         }
         printf("\n");
     }
-    fwrite(array,sizeof(int),size,fp);
-    printf("Twoja tablica:\n\n");
+    fwrite(array,sizeof(int),size,fp); // zapisywanie do pliku tablica.txt tablicy utworzonej przez uzytkownika
+    printf("Twoja tablica:\n\n"); // sizeof podaje iloœæ pamiêci w bajtach dp przechowania typu int
      for(i=0;i<size;i++)
     {
         for(j=0;j<size;j++)
@@ -86,11 +78,12 @@ int yours()
 }
 int count(int size, int array[size][size])
 {
-    smartopen(); //wywolanie funkcji - "wyczyszczeni pliku"
+    smartopen();
     int count = 0;
     int tab[0];
-     clock_t start = clock() ;
+    clock_t start = clock() ;
     int i,j,rowsum,columnsum,rowindex,columnindex = 0;
+    printf("Indeksy wierszy spelniajace warunek(liczymy od zera): ");
     for(i=0;i<size;i++)
     {
         rowsum = 0;
@@ -105,17 +98,16 @@ int count(int size, int array[size][size])
         if(rowsum > columnsum)
         {
             tab[count] = i;
-            printf("%d ", tab[count]);
+            printf("%d ", tab[count]); //zapisanie wyniku do tablicy
                 write(count,tab);
-
         }
-            count +1;
+            count +1; // liczenie ile indeksow wierszy spelnia warunek, aby ustalic wielkosc tablicy
 
         //printf("Suma W[%d]: %d, Suma K[%d]: %d\n",i,rowsum,i,columnsum);
     }
        // read();
         printf("\n");
-        printf( "Czas wykonywania: %lu s\n", ((clock() - start)/CLOCKS_PER_SEC) );
+        printf( "Czas wykonywania: %lu ms\n", clock() - start );
 }
 //koniec funkcji count
 //funkcja smartopen otwiera plik nic do niego nie wpisujac, czyniac go w ten sposob pustym
@@ -123,10 +115,13 @@ int count(int size, int array[size][size])
 smartopen()
 {
     FILE *file;
-    file = fopen("file.txt","w");
+    file = fopen("file.txt","a+");
+    fprintf(file,"\n");
     fclose(file);
 }
-//funkcja write
+//funkcja write odpowiada za zapisanie do pliku indeksow wierszy spelniajacych warunek
+//ostatnie wyniki algorytmu zapisane sa w ostatniej linii pliku badz jesli nie mieszcza sie w niej
+//przeniesione do nastepnej
 write(int count, int tab[count])
 {
     FILE * file;
@@ -141,29 +136,10 @@ write(int count, int tab[count])
         {
             fprintf(file,"%d ",tab[i]);
         }
-         //zapisanie do pliku indeksow wierszy spelniajacych warunek
         fclose(file);
 }
-//funkcja read
- read()
-    {
-                FILE *file;
-        char index[300];
-        file = fopen("file.txt","r");
-            if(file==NULL)
-            {
-                printf("Nie mozna otworzyc pliku");
-                return 1;
-            }
-        fgets(index,300,file);
-        fclose(file);
-        printf("\n");
-        printf("Indeksy wierszy spelniajace warunek: %s",index);
-    }
-//koniec funkcji read
 //koniec funkcji write
-//koniec funkcji count
-//poczatek funkcji los, ktora to losuje elemnty do  tablicy o stopniu podanym przez uzytkownika, nastepnie wypisuje ja
+// funkcja los, ktora losuje elemnty do tablicy o stopniu podanym przez uzytkownika
 void los(int size)
 {
     printf("Podaj rozmiar tablicy: ");
