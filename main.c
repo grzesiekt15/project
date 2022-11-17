@@ -110,9 +110,7 @@ int count(int size, int array[size][size])
         printf( "Czas wykonywania: %lu ms\n", clock() - start );
 }
 //koniec funkcji count
-//funkcja smartopen otwiera plik nic do niego nie wpisujac, czyniac go w ten sposob pustym
-// po to aby wyniki nie mieszaly sie
-smartopen()
+//funkcja smartopen otwiera plik dodajac znak nowej linii aby nowe wyniki programu zapisywaly sie w nowej linii
 {
     FILE *file;
     file = fopen("file.txt","a+");
