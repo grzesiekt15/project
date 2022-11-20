@@ -1,0 +1,5 @@
+ [rozmiar]  [czas]
+
+   2         1ms
+   3         1ms
+   5         5ms
