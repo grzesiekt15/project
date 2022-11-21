@@ -8,6 +8,19 @@ int yours();
 int count(int **tablica, int rozmiar);
 int write(int indeks,int licznik);
 //funkcja poczatkowa pozwalajaca na wybranie z jakiej tablicy bedzie korzystal program
+int write(int indeks,int licznik)
+{
+    FILE * file;
+    int k;
+    file = fopen("file.txt","a+");
+    if(file==NULL)
+    {
+        printf("Nie mozna otworzyc pliku");
+        return 1;
+    }
+    fprintf(file,"%d ",indeks);
+    fclose(file);
+}
 int welcome()
 {
     int makechoice;
@@ -30,9 +43,9 @@ int count(int **tablica, int rozmiar)
     FILE *file;
     file = fopen("file.txt", "a+");
     //smartopen();
-    clock_t start = clock() ;
+    clock_t start = clock() ; //zaczyna odliczanie
     // count = 1;
-    printf("Ilosc elementow: %d\n\n1",rozmiar*rozmiar);
+    printf("Ilosc elementow: %d\n\n",rozmiar*rozmiar);
     int i,j,rowsum,columnsum,rowindex,columnindex;
     i,j,rowsum,columnsum,rowindex,columnindex = 0;
     printf("Indeksy wierszy spelniajace warunek(liczymy od zera): ");
@@ -55,6 +68,7 @@ int count(int **tablica, int rozmiar)
            // write(i,count);
         }
     }
+    fprintf(file,"\n\n");
     fclose(file);
     printf("\nCzas wykonywania: %lu ms\n", clock() - start ); // czas wykonania algorytmu tzn. obliczanie sum, porownanie ich oraz wypisanie na ekranie i zapis do pliku
     int czas = clock() - start;
@@ -63,6 +77,46 @@ int count(int **tablica, int rozmiar)
     fprintf(wyniki,"\n   %d         %dms",rozmiar,czas); //zapis wynikow pomiarow do pliku
     fclose(wyniki);
 }
+count2(int rozmiar, int **tablica)
+{
+    FILE *file2;
+    file2 = fopen("file2.txt", "a+");
+    //smartopen();
+    clock_t start = clock() ;
+    //int count = 1;
+    printf("Ilosc elementow: %d\n\n",rozmiar*rozmiar);
+    int i,j,rowsum,columnsum,rowindex,columnindex;
+    i,j,rowsum,columnsum,rowindex,columnindex = 0;
+    printf("Indeksy wierszy spelniajace warunek(liczymy od zera): ");
+    for(i=0;i<rozmiar;i++)
+    {
+        rowsum = 0;
+        columnsum = 0;
+        for(j=0;j<rozmiar;j++)
+        {
+            rowsum += tablica[i][j]; //liczenie sumy elementow w wierszu np. tablica[0][0] + tablica[0][1] + ... + tablica[0][n] gdzie n to rozmiar - 1
+            columnsum += tablica[j][i];	//liczenie sumy elementow w kolumnie np. tablica[1][0] + tablica[2][0] + .. + tablica[n][0] - = -
+            rowindex = i;
+            columnindex = i;
+        }
+        //if(rozmiar<=5) printf("Suma W[%d]: %d, Suma K[%d]: %d\n",i,rowsum,i,columnsum); //wypisanie sumy dla macierzy max 5 stopnia, aby spradzic ze dziala
+        if(rowsum > columnsum) //glowny warunek, wypisanie indeksy spelniajacych go na ekranie oraz wpisanie do pliku
+        {
+            fprintf(file2,"%d ",i);
+            printf("%d ",i);
+           // write(i,count);
+        }
+    }
+    fprintf(file2, "\n");
+    fclose(file2);
+    printf("\nCzas wykonywania: %lu ms\n", clock() - start ); // czas wykonania algorytmu tzn. obliczanie sum, porownanie ich oraz wypisanie na ekranie i zapis do pliku
+    int czas = clock() - start;
+    FILE *wyniki2;
+    wyniki2 = fopen("wyniki2.txt","a+");
+    fprintf(wyniki2,"\n   %d         %dms",rozmiar,czas); //zapis wynikow pomiarow do pliku
+    fclose(wyniki2);
+}
+//koniec funkcji count2
 //funkcja los odpowiada za losowanie tablicy o rozmiarze podanym przez uztkownika, wywolujemy funkcje count
 int los()
 {
@@ -106,19 +160,7 @@ int los()
 //lepszym rozwiazaniem byloby zapisanie wszystkich indeksow do tablicy i otworzenie pliku tylko jeden raz
 //aby kazdy element z tablicy zapisac do pliku; w tym przypadku plik otwieramy wielokrotnie co obciaza sprzet
 //ostatecznie nie korzystamy z tej funkcji w programie
-int write(int indeks,int licznik)
-{
-    FILE * file;
-    int k;
-    file = fopen("file.txt","a+");
-    if(file==NULL)
-    {
-        printf("Nie mozna otworzyc pliku");
-        return 1;
-    }
-    fprintf(file,"%d ",indeks);
-    fclose(file);
-}
+
 //funkcja yours odpowiada za utworzenie macierzy, stopien macierzy i elementy podaje uzytkownik
 int yours()
 {
@@ -172,45 +214,7 @@ int yours()
     printf("\n");
     count2(size,array);
 }
-count2(int rozmiar, int **tablica)
-{
-    FILE *file2;
-    file2 = fopen("file2.txt", "a+");
-    //smartopen();
-    clock_t start = clock() ;
-    //int count = 1;
-    printf("Ilosc elementow: %d\n\n1",rozmiar*rozmiar);
-    int i,j,rowsum,columnsum,rowindex,columnindex;
-    i,j,rowsum,columnsum,rowindex,columnindex = 0;
-    printf("Indeksy wierszy spelniajace warunek(liczymy od zera): ");
-    for(i=0;i<rozmiar;i++)
-    {
-        rowsum = 0;
-        columnsum = 0;
-        for(j=0;j<rozmiar;j++)
-        {
-            rowsum += tablica[i][j]; //liczenie sumy elementow w wierszu np. tablica[0][0] + tablica[0][1] + ... + tablica[0][n] gdzie n to rozmiar - 1
-            columnsum += tablica[j][i];	//liczenie sumy elementow w kolumnie np. tablica[1][0] + tablica[2][0] + .. + tablica[n][0] - = -
-            rowindex = i;
-            columnindex = i;
-        }
-        //if(rozmiar<=5) printf("Suma W[%d]: %d, Suma K[%d]: %d\n",i,rowsum,i,columnsum); //wypisanie sumy dla macierzy max 5 stopnia, aby spradzic ze dziala
-        if(rowsum > columnsum) //glowny warunek, wypisanie indeksy spelniajacych go na ekranie oraz wpisanie do pliku
-        {
-            fprintf(file2,"%d ",i);
-            printf("%d ",i);
-           // write(i,count);
-        }
-    }
-    fprintf(file2, "\n");
-    fclose(file2);
-    printf("\nCzas wykonywania: %lu ms\n", clock() - start ); // czas wykonania algorytmu tzn. obliczanie sum, porownanie ich oraz wypisanie na ekranie i zapis do pliku
-    int czas = clock() - start;
-    FILE *wyniki2;
-    wyniki2 = fopen("wyniki2.txt","a+");
-    fprintf(wyniki2,"\n   %d         %dms",rozmiar,czas); //zapis wynikow pomiarow do pliku
-    fclose(wyniki2);
-}
+
 int main()
 {
     srand(time(0));
